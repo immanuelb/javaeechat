@@ -1,12 +1,17 @@
 package com.javaee.proyek.Controllers;
 
+import com.javaee.proyek.FormBeans.RegisterForm;
 import com.javaee.proyek.Models.Users;
 import com.javaee.proyek.Services.UsersService;
 import com.javaee.proyek.Validator.FieldMatch;
+import com.javaee.proyek.Validator.RegisterValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,13 +23,35 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 
 @Controller
-@FieldMatch(first = "password", second = "connpassword", message = "Passwords are not equal.")
 public class RegisterController implements WebMvcConfigurer {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     private UsersService userService;
 
     @Autowired
-    public RegisterController(UsersService userService) {
+    private RegisterValidator registerValidator;
+
+    @Autowired
+    public RegisterController(PasswordEncoder passwordEncoder,UsersService userService, RegisterValidator registerValidator) {
+        this.passwordEncoder = passwordEncoder;
         this.userService = userService;
+        this.registerValidator = registerValidator;
+    }
+
+    @InitBinder
+    protected void initBinder(WebDataBinder dataBinder) {
+        // Form target
+        Object target = dataBinder.getTarget();
+        if (target == null) {
+            return;
+        }
+        System.out.println("Target=" + target);
+
+        if (target.getClass() == RegisterForm.class) {
+            dataBinder.setValidator(registerValidator);
+        }
     }
 
     @RequestMapping(value="/register", method= RequestMethod.POST, params="action=Login")
@@ -41,15 +68,18 @@ public class RegisterController implements WebMvcConfigurer {
         System.out.println(userExists);
 
         if (userExists != null) {
+            System.out.println("user already exist");
             modelAndView.addObject("Message", "Oops!  There is already a user registered with the email provided.");
             modelAndView.setViewName("register");
             bindingResult.reject("email");
         }
 
         if (bindingResult.hasErrors()) {
+            System.out.println("binding error");
             modelAndView.setViewName("register");
         }
         else{
+            System.out.println("success insert");
             LocalDateTime now = LocalDateTime.now();
 
             //not verified by admin
@@ -57,7 +87,7 @@ public class RegisterController implements WebMvcConfigurer {
             //online
             users.setStatus(1);
             users.setLastLogin(now);
-            //users.setPassword(bCryptPasswordEncoder.encode(users.getPassword().trim().toString()));
+            users.setPassword(passwordEncoder.encode(users.getPassword()));
             userService.saveUser(users);
             modelAndView.addObject("Message", "Your registration has been successful.");
             modelAndView.setViewName("register");

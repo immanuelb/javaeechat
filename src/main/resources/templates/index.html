@@ -12,10 +12,10 @@
         <h3>Please login</h3>
         <form action="#" th:action="@{/check}" th:object="${loginForm}" method="POST">
             <div class="form-group">
-                <input type="text" th:field="*{email}" th:placeholder="'*Email'" th:autocomplete="off" class="form-control"/>
-                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="show-error"></p>
-                <input type="password" th:field="*{password}" th:placeholder="'*Password'" th:autocomplete="off" class="form-control"/>
-                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="show-error"></p>
+                <input type="text" th:field="*{emailLogin}" th:placeholder="'*Email'" th:autocomplete="off" class="form-control"/>
+                <p th:if="${#fields.hasErrors('emailLogin')}" th:errors="*{emailLogin}" class="show-error"></p>
+                <input type="password" th:field="*{passwordLogin}" th:placeholder="'*Password'" th:autocomplete="off" class="form-control"/>
+                <p th:if="${#fields.hasErrors('passwordLogin')}" th:errors="*{passwordLogin}" class="show-error"></p>
             </div>
             <div class="form-group">
                 <p th:if="${NotFound}" th:text=${NotFound} ></p>
