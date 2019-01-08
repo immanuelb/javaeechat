@@ -48,17 +48,6 @@ public class LoginController implements WebMvcConfigurer {
 
     @RequestMapping(value="/check", method= RequestMethod.POST, params="action=Login")
     public ModelAndView checkLogin(ModelAndView modelAndView, @ModelAttribute("loginForm")@Validated LoginForm loginForm, BindingResult bindingResult) {
-        // Lookup user in database by e-mail
-        /*Users userExists = userService.findByEmailAndPassword(loginForm.getEmail(),loginForm.getPassword());
-        System.out.println(userExists);
-
-        if (userExists == null) {
-            System.out.println("Error");
-            modelAndView.addObject("NotFound", "Oops! Can not find the user. Please try again");
-            modelAndView.addObject("loginForm", loginForm);
-            modelAndView.setViewName("index");
-        }*/
-
         if (bindingResult.hasErrors()) {
             System.out.println("Binding Error");
             modelAndView.addObject("loginForm", loginForm);
@@ -66,6 +55,7 @@ public class LoginController implements WebMvcConfigurer {
         }
         else{
             System.out.println("Success Login");
+            userService.updateStatusLogin(loginForm.getEmail());
             modelAndView.setViewName("result");
         }
         return modelAndView;

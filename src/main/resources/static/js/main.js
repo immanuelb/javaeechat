@@ -8,8 +8,6 @@ var messageForm = document.querySelector('#messageForm');
 var messageInput = document.querySelector('#message');
 var messageArea = document.querySelector('#messageArea');
 var connectingElement = document.querySelector('.connecting');
-var btnLogin = document.getElementById('#btnLogin').val();
-var btnRegister = document.getElementById('#btnRegister').val();
 var stompClient = null;
 var login = null;
 
@@ -18,8 +16,11 @@ var colors = [
     '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
 ];
 
+alert("a");
+
 function connect(event) {
     //login = document.querySelector('#name').value.trim();
+
     login = "a";
     if(login) {
         //loginPage.classList.add('hidden');
@@ -115,6 +116,5 @@ function getAvatarColor(messageSender) {
     var index = Math.abs(hash % colors.length);
     return colors[index];
 }
-
-loginForm.addEventListener('submit', connect, true);
+//chatPage.addEventListener('load', connect);
 messageForm.addEventListener('submit', sendMessage, true);
