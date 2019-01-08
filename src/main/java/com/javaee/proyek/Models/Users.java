@@ -1,12 +1,6 @@
 package com.javaee.proyek.Models;
 
-import com.javaee.proyek.Validator.FieldMatch;
-import org.springframework.web.bind.annotation.ModelAttribute;
-
 import javax.persistence.*;
-import javax.persistence.metamodel.StaticMetamodel;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,7 +11,6 @@ public class Users {
     private Integer id;
     private String email;
     private String password;
-    private String connpassword;
     private String first_name;
     private String last_name;
     private LocalDateTime lastLogin;
@@ -27,10 +20,9 @@ public class Users {
     public Users() {
     }
 
-    public Users(String email, String password, String connpassword, String first_name, String last_name, LocalDateTime lastLogin, Integer status, Integer verified) {
+    public Users(String email, String password, String first_name, String last_name, LocalDateTime lastLogin, Integer status, Integer verified) {
         this.email = email;
         this.password = password;
-        this.connpassword = connpassword;
         this.first_name = first_name;
         this.last_name = last_name;
         this.lastLogin = lastLogin;
@@ -100,13 +92,5 @@ public class Users {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getConnpassword() {
-        return connpassword;
-    }
-
-    public void setConnpassword(String connpassword) {
-        this.connpassword = connpassword;
     }
 }

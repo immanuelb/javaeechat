@@ -3,10 +3,8 @@ package com.javaee.proyek.Controllers;
 import com.javaee.proyek.FormBeans.RegisterForm;
 import com.javaee.proyek.Models.Users;
 import com.javaee.proyek.Services.UsersService;
-import com.javaee.proyek.Validator.FieldMatch;
 import com.javaee.proyek.Validator.RegisterValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -19,10 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.time.LocalDateTime;
 
 @Controller
 public class RegisterController implements WebMvcConfigurer {
@@ -64,16 +58,16 @@ public class RegisterController implements WebMvcConfigurer {
     }
 
     @RequestMapping(value="/register", method=RequestMethod.POST, params="action=Register")
-    public ModelAndView checkRegister(ModelAndView modelAndView, @ModelAttribute("registerForm") @Validated RegisterForm registerForm, BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
+    public ModelAndView checkRegister(ModelAndView modelAndView, @ModelAttribute("registerForm") @Validated RegisterForm registerForm, BindingResult bindingResult) {
         // Lookup user in database by e-mail
-        Users userExists = userService.findByEmail(registerForm.getEmail());
+        /*Users userExists = userService.findByEmail(registerForm.getEmail());
         System.out.println(userExists);
 
         if (userExists != null) {
             System.out.println("user already exist");
             modelAndView.addObject("Message", "Oops!  There is already a user registered with the email provided.");
             modelAndView.setViewName("register");
-        }
+        }*/
 
         if (bindingResult.hasErrors()) {
             System.out.println("binding error");

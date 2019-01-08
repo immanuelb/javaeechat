@@ -38,12 +38,16 @@ public class UsersService {
         return user_exist;
     }
 
-    public void saveUser(RegisterForm registerForm) {
+    public Users saveUser(RegisterForm registerForm) {
         LocalDateTime now = LocalDateTime.now();
-        registerForm.setVerified(0); //not verified by admin
-        registerForm.setStatus(1); //online
-        registerForm.setLastLogin(now);
-        registerForm.setPassword(this.passwordEncoder.encode(registerForm.getPassword()));
-        userRepository.saveUser(registerForm);
+        //registerForm.setVerified(0); //not verified by admin
+        //registerForm.setStatus(1); //online
+        //registerForm.setLastLogin(now);
+        //registerForm.setPassword(this.passwordEncoder.encode(registerForm.getPassword()));
+        //userRepository.saveUser(registerForm);
+        String encrytedPassword = this.passwordEncoder.encode(registerForm.getPassword());
+        Users user = new Users(registerForm.getEmail(),encrytedPassword,registerForm.getFirst_name(),registerForm.getLast_name(),now,0,0);
+        userRepository.save(user);
+        return user;
     }
 }
