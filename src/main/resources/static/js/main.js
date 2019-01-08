@@ -16,8 +16,6 @@ var colors = [
     '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
 ];
 
-alert("a");
-
 function connect(event) {
     //login = document.querySelector('#name').value.trim();
 
@@ -45,7 +43,7 @@ function onConnected() {
         JSON.stringify({sender: login, type: 'JOIN'})
     );
 
-    //connectingElement.classList.add('hidden');
+    connectingElement.classList.add('hidden');
 }
 
 
@@ -116,5 +114,5 @@ function getAvatarColor(messageSender) {
     var index = Math.abs(hash % colors.length);
     return colors[index];
 }
-//chatPage.addEventListener('load', connect);
+//chatPage.addEventListener('load', connect, true);
 messageForm.addEventListener('submit', sendMessage, true);
