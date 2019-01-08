@@ -26,16 +26,7 @@ public class UsersService {
     }
 
     public Users findByEmailAndPassword(String email, String password){
-        Users user_exist = userRepository.findByEmailAndPassword(email,password);
-        if(user_exist != null){
-            if(user_exist.getVerified() == 1){
-                user_exist = userRepository.findByEmailAndPassword(email,password);
-            }
-            else{
-                user_exist = null;
-            }
-        }
-        return user_exist;
+        return userRepository.findByEmailAndPassword(email,password);
     }
 
     public Users saveUser(RegisterForm registerForm) {

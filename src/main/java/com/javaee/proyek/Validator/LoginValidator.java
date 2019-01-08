@@ -46,11 +46,14 @@ public class LoginValidator implements Validator {
         }
 
         if (!errors.hasErrors()) {
-            Users dbUser = usersService.findByEmailAndPassword(loginForm.getEmail(),passwordEncoder.encode(loginForm.getPassword()));
-            /*if (!passwordEncoder.encode(loginForm.getPassword()).equals(dbUser.getPassword())) {
-                errors.rejectValue("password", "NotFound.appLoginForm.password");
-            }*/
-            if(dbUser == null){
+            Users user_exist = usersService.findByEmail(loginForm.getEmail());
+            Boolean get = this.passwordEncoder.matches(loginForm.getPassword(),user_exist.getPassword());
+            if(get != false){
+                if(user_exist.getVerified() != 1){
+                    errors.rejectValue("password","NotVerified.appLoginForm.password");
+                }
+            }
+            else{
                 errors.rejectValue("password", "NotFound.appLoginForm.password");
             }
         }

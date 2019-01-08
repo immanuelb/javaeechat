@@ -44,7 +44,6 @@ public class RegisterController implements WebMvcConfigurer {
         System.out.println("Target=" + target);
 
         if (target.getClass() == RegisterForm.class) {
-            //System.out.println("masuk");
             dataBinder.setValidator(registerValidator);
         }
     }
