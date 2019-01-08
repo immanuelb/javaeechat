@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>Spring Boot WebSocket Chat Application</title>
+    <link rel="stylesheet" href="/css/main.css" />
+</head>
+<body>
+<div id="register-page">
+    <div class="page-container">
+        <h1 class="title">Java EE Chat</h1>
+        <h3>Please Register</h3>
+        <form action="#" th:action="@{/register}" th:object="${registerForm}" method="POST">
+            <div class="form-group">
+                <input type="text" th:field="*{first_name}" th:placeholder="'*First Name'" th:autocomplete="off" class="form-control"/>
+                <p th:if="${#fields.hasErrors('first_name')}" th:errors="*{first_name}" class="show-error"></p>
+                <input type="text" th:field="*{last_name}" th:placeholder="'*Last Name'" th:autocomplete="off" class="form-control"/>
+                <p th:if="${#fields.hasErrors('last_name')}" th:errors="*{last_name}" class="show-error"></p>
+                <input type="text" th:field="*{email}" th:placeholder="'*Email'" th:autocomplete="off" class="form-control"/>
+                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="show-error"></p>
+                <input type="password" th:field="*{password}" th:placeholder="'*Password'" th:autocomplete="off" class="form-control"/>
+                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="show-error"></p>
+                <input type="password" th:field="*{connpassword}" th:placeholder="'*Confirm Password'" th:autocomplete="off" class="form-control"/>
+                <p th:if="${#fields.hasErrors('connpassword')}" th:errors="*{connpassword}" class="show-error">Description errors</p>
+            </div>
+            <div class="form-group">
+                <p th:if="${Message}" th:text=${Message}></p>
+                <button type="submit" name="action" class="accent btn-submit" value="Login">Login</button>
+                <button type="submit" name="action" class="primary btn-submit" value="Register">Register</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
