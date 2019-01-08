@@ -1,7 +1,6 @@
 package com.javaee.proyek.Controllers;
 
 import com.javaee.proyek.FormBeans.RegisterForm;
-import com.javaee.proyek.Models.Users;
 import com.javaee.proyek.Services.UsersService;
 import com.javaee.proyek.Validator.RegisterValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class RegisterController implements WebMvcConfigurer {
@@ -46,6 +44,7 @@ public class RegisterController implements WebMvcConfigurer {
         System.out.println("Target=" + target);
 
         if (target.getClass() == RegisterForm.class) {
+            //System.out.println("masuk");
             dataBinder.setValidator(registerValidator);
         }
     }
@@ -71,11 +70,16 @@ public class RegisterController implements WebMvcConfigurer {
 
         if (bindingResult.hasErrors()) {
             System.out.println("binding error");
+            //RegisterForm form = new RegisterForm();
+            modelAndView.addObject("registerForm",registerForm);
             modelAndView.setViewName("register");
         }
         else{
             System.out.println("success insert");
             userService.saveUser(registerForm);
+
+            RegisterForm form = new RegisterForm();
+            modelAndView.addObject("registerForm",form);
             modelAndView.addObject("Message", "Your registration has been successful.");
             modelAndView.setViewName("register");
         }

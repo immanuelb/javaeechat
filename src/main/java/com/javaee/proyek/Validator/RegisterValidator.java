@@ -27,7 +27,7 @@ public class RegisterValidator implements Validator {
     public void validate(Object target, Errors errors) {
         RegisterForm registerForm = (RegisterForm) target;
 
-        // Check the fields of AppUserForm.
+        // Check the fields of RegisterForm.
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "first_name", "NotEmpty.appRegisterForm.firstName");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "last_name", "NotEmpty.appRegisterForm.lastName");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty.appRegisterForm.email");
