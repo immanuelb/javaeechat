@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -47,7 +48,7 @@ public class LoginController implements WebMvcConfigurer {
     }
 
     @RequestMapping(value="/check", method= RequestMethod.POST, params="action=Login")
-    public ModelAndView checkLogin(ModelAndView modelAndView, @ModelAttribute("loginForm")@Validated LoginForm loginForm, BindingResult bindingResult) {
+    public ModelAndView checkLogin(ModelAndView modelAndView, @ModelAttribute("loginForm")@Validated LoginForm loginForm, BindingResult bindingResult, HttpSession session) {
         if (bindingResult.hasErrors()) {
             System.out.println("Binding Error");
             modelAndView.addObject("loginForm", loginForm);
@@ -56,7 +57,11 @@ public class LoginController implements WebMvcConfigurer {
         else{
             System.out.println("Success Login");
             userService.updateStatusLogin(loginForm.getEmail());
-            modelAndView.setViewName("result");
+            Users user = userService.findByEmail(loginForm.getEmail());
+            modelAndView.addObject("userLogin", user.getFirst_name()+" "+user.getLast_name());
+            //modelAndView.addObject("userEmail", user.getEmail());
+            session.setAttribute("userEmail",user.getEmail());
+            modelAndView.setViewName("home");
         }
         return modelAndView;
     }

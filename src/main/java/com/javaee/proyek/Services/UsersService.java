@@ -39,7 +39,12 @@ public class UsersService {
 
     public Users updateStatusLogin(String email){
         Users userLoggedIn = userRepository.findByEmail(email);
-        userLoggedIn.setStatus(1);
+        if(userLoggedIn.getStatus() == 0){
+            userLoggedIn.setStatus(1);
+        }
+        else{
+            userLoggedIn.setStatus(0);
+        }
         userRepository.save(userLoggedIn);
         return userLoggedIn;
     }
